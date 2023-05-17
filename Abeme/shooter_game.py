@@ -180,6 +180,12 @@ while run:                  # ігровий цикил
                 points = 0
                 lost_text = font1.render("Пропущено" + str(lost), True,(255,255,255))
                 points_text = font1.render("Рахунок" + str(points), True,(255,255,255))
+                boss.hp = 15
+                monsters = sprite.Group()
+                for i in range(5):
+                    new_enemy = Enemy(x=randint(0, WIDTH - 80),
+                                    y = randint(-500, -150),speed = randint(3,6))
+                    monsters.add(new_enemy)
 
     if not finish:
         window.blit(bg, (0,bg_y1))
@@ -226,7 +232,7 @@ while run:                  # ігровий цикил
                 player.hp -= 1
                 hp_text = font1.render("Життя:" + str(player.hp),True,(255,255,255))
 
-        collide_list = sprite.groupcollide(bullets, monsters, True, False, sprite.collide_mask)
+        collide_list = sprite.groupcollide(bullets, monsters, True, True, sprite.collide_mask)
         for collide in collide_list:
             points += 1
             points_text = font1.render("Рахунок: " + str(points), True,(255,255,255))
@@ -240,7 +246,10 @@ while run:                  # ігровий цикил
             boss.draw()
             boss.update()
             monsters = sprite.Group()
-        if boss.hp <= 0:
+            collide_list = sprite.Group()
+            collide_list = sprite.spritecollide( boss, bullets, True, sprite.collide_mask)
+            for collide in collide_list:
+            boss.hp <= 0:
             finish = True
             result_text = font2.render("ПРЕМОГА!",True,(230, 145, 12))
         
